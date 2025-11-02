@@ -22,7 +22,7 @@ class ImageGenerator:
     """图片生成器"""
 
     def __init__(self):
-        self.font_path = config.fort_path
+        self.font_path = config.course_font_path
         self.font_main = self._load_font(32)
         self.font_sub = self._load_font(24)
         self.font_title = self._load_font(48)
