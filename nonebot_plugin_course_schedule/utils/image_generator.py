@@ -103,7 +103,12 @@ class ImageGenerator:
 
         for ch in text:
             unit = 1 if ch in " @" or ch.isascii() else 2
-            if current_units + unit > max_units:
+            # 传奇南大教务，带换行符的课程信息
+            if ch == "\n":
+                lines.append(current_line)
+                current_line = ""
+                current_units = 0
+            elif current_units + unit > max_units:
                 lines.append(current_line)
                 current_line = ch
                 current_units = unit
@@ -230,7 +235,8 @@ class ImageGenerator:
 
             draw.text(
                 (text_x + 120, y_offset + 65),
-                f"{summary} @ {location}",
+                # 传奇南大教务，带换行符的课程信息
+                f"{summary} @ {location}".replace("\n", " "),
                 font=self.font_sub,
                 fill=c.GS_FONT_COLOR,
             )
