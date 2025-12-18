@@ -1,5 +1,5 @@
 [project]
-name = "nonebot_plugin_course_schedule"
+name = "nonebot-plugin-course-schedule"
 version = "0.1.0"
 description = "课程表插件,可以视奸群友在上什么课"
 authors = [
