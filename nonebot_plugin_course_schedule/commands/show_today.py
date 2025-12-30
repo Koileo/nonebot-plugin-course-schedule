@@ -3,6 +3,7 @@ import shlex
 from datetime import datetime, timezone, timedelta
 from dateutil import parser
 from typing import Union
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from nonebot import on_command, logger
 from nonebot.adapters import Message
@@ -16,6 +17,7 @@ from nonebot.adapters.onebot.v11 import (
 from ..utils.data_manager import data_manager
 from ..utils.ics_parser import ics_parser
 from ..utils.image_generator import image_generator
+from ..utils.tools import image_to_base64
 
 show_today = on_command(
     "show_today",
@@ -113,5 +115,5 @@ async def _(
             filtered_courses, nickname, target_date
         )
     )
-
-    await show_today.finish(MessageSegment.image(image_path))
+    img = Image.open(image_path)
+    await show_today.finish(MessageSegment.image(image_to_base64(img)))

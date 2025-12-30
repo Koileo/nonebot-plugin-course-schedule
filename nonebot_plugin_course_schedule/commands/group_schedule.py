@@ -2,6 +2,7 @@ import os
 import shlex
 from datetime import datetime, time, timezone, timedelta
 from dateutil import parser
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from nonebot import on_command, logger
 from nonebot.adapters import Message
@@ -11,7 +12,7 @@ from nonebot.adapters.onebot.v11 import Bot, GroupMessageEvent, MessageSegment
 from ..utils.data_manager import data_manager
 from ..utils.ics_parser import ics_parser
 from ..utils.image_generator import image_generator
-
+from ..utils.tools import image_to_base64
 
 group_schedule = on_command(
     "group_schedule",
@@ -122,4 +123,5 @@ async def _(bot: Bot, event: GroupMessageEvent, arg: Message = CommandArg()):
 
     next_courses.sort(key=lambda x: (x["start_time"] is None, x["start_time"]))
     image_path = await image_generator.generate_schedule_image(next_courses)
-    await group_schedule.send(MessageSegment.image(image_path))
+    img = Image.open(image_path)
+    await group_schedule.send(MessageSegment.image(image_to_base64(img)))

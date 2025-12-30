@@ -1,9 +1,11 @@
 from nonebot import on_command
 from nonebot.adapters.onebot.v11 import Bot, GroupMessageEvent, MessageSegment
 from datetime import datetime, timedelta, timezone
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from ..utils.data_manager import data_manager
 from ..utils.ics_parser import ics_parser
 from ..utils.image_generator import image_generator
+from ..utils.tools import image_to_base64
 import os
 
 weekly_ranking = on_command(
@@ -81,4 +83,5 @@ async def _(bot: Bot, event: GroupMessageEvent):
     image_path = await image_generator.generate_ranking_image(
         ranking_data, start_of_week, end_of_week
     )
-    await weekly_ranking.send(MessageSegment.image(image_path))
+    img = Image.open(image_path)
+    await weekly_ranking.send(MessageSegment.image(image_to_base64(img)))
